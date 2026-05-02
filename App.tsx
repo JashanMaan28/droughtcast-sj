@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { fetchRows } from "./src/api";
 import { HORIZONS, trainModels, type ModelBundle } from "./src/model";
+import { Simulator } from "./src/Simulator";
 import { classify, STAGE_BG } from "./src/stage";
 import type { Row } from "./src/types";
 
@@ -83,6 +84,8 @@ export default function App() {
             </Text>
           </View>
         </View>
+
+        <Simulator rows={rows} models={models} />
 
         <View className="mt-4 rounded-2xl bg-white p-5 shadow">
           <Text className="text-stone-500">Model Stats</Text>
