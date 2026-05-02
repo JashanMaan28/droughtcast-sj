@@ -9,6 +9,7 @@ import {
   View,
 } from "react-native";
 import { fetchRows } from "./src/api";
+import { AquaAlert } from "./src/AquaAlert";
 import { HORIZONS, trainModels, type ModelBundle } from "./src/model";
 import { Simulator } from "./src/Simulator";
 import { classify, STAGE_BG } from "./src/stage";
@@ -84,6 +85,8 @@ export default function App() {
             </Text>
           </View>
         </View>
+
+        <AquaAlert rows={rows} models={models} />
 
         <Simulator rows={rows} models={models} />
 
