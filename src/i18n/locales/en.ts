@@ -16,7 +16,54 @@ const en: Strings = {
     today: "Today",
     sim: "Simulator",
     impact: "Impact",
-    about: "About",
+    settings: "Settings",
+  },
+
+  roles: {
+    label: {
+      farmer: "Farmer",
+      resident: "Resident",
+      school: "School",
+      business: "Business",
+      planner: "City Planner",
+    },
+    sub: {
+      farmer: "Irrigation & crop planning",
+      resident: "Household water use",
+      school: "Campus operations",
+      business: "Commercial water use",
+      planner: "Public infrastructure",
+    },
+  },
+
+  onboarding: {
+    title: "What best describes you?",
+    sub: "We'll tailor alerts and recommendations to your situation.",
+    cta: "Continue",
+    skip: "Skip for now",
+  },
+
+  personalizedAlert: {
+    eyebrow: "FOR YOU",
+    headline: "Recommended this week",
+    body: {
+      farmer: "Reduce irrigation by 15% this week.",
+      resident: "Avoid lawn watering.",
+      school: "Pause non-essential outdoor watering.",
+      business: "Audit water-using equipment for leaks.",
+      planner: "Reservoir conservation recommended.",
+    },
+  },
+
+  recommendedActions: {
+    title: "Recommended Actions",
+    sub: "Steps that move the needle most under elevated risk.",
+    items: {
+      drip: "Switch to drip irrigation",
+      delayWatering: "Delay non-essential watering",
+      checkLeaks: "Check for leaks",
+      reduceOutdoor: "Reduce outdoor usage",
+    },
   },
 
   stages: {
@@ -139,15 +186,18 @@ const en: Strings = {
     },
   },
 
-  about: {
-    title: "About",
-    sub: "Methodology & sources",
-    method: "METHOD",
+  settings: {
+    title: "Settings",
+    sub: "Personalize DroughtCast",
+    languageSection: "LANGUAGE",
+    profileSection: "I AM A…",
+    profileHint: "Powers the alerts and recommendations you see.",
+    methodSection: "METHOD",
+    sourceSection: "SOURCE",
+    thresholdsSection: "STAGE THRESHOLDS",
     methodBody:
-      "Four multivariate linear regressions trained on-device, one per forecast horizon (1, 3, 6, 12 months). Features: current snowpack & precipitation (% of normal), 3-month-lagged snowpack & precipitation, plus sin/cos seasonality of month-of-year. The 12-month curve interpolates between those four anchors.",
-    modelFit: "MODEL FIT (R² IN-SAMPLE)",
+      "Four multivariate linear regressions trained on-device, one per forecast horizon (1, 3, 6, 12 months). Features: current snowpack & precipitation (% of normal), 3-month-lagged snowpack & precipitation, plus sin/cos seasonality of month-of-year.",
     horizonLabel: (m) => `+${m} mo`,
-    source: "SOURCE",
     dataset: "Dataset",
     datasetValue: "H2O Hackathon Challenge",
     endpoint: "Endpoint",
@@ -156,7 +206,6 @@ const en: Strings = {
     recordsValue: (n) => `${n} months`,
     region: "Region",
     regionValue: "San Joaquin County, CA",
-    stageThresholds: "STAGE THRESHOLDS",
     thresholdRange: {
       Normal: "> 85% reservoir",
       Watch: "75 – 85%",

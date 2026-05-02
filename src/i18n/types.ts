@@ -10,7 +10,10 @@ export type LanguageInfo = {
   nativeName: string;
 };
 
+export type Role = "farmer" | "resident" | "school" | "business" | "planner";
+
 type StageMap = Record<DroughtStage, string>;
+type RoleMap = Record<Role, string>;
 
 /**
  * Canonical translation surface. Every locale file exports an object
@@ -32,7 +35,44 @@ export type Strings = {
     today: string;
     sim: string;
     impact: string;
-    about: string;
+    settings: string;
+  };
+
+  roles: {
+    /** Localized role labels. */
+    label: RoleMap;
+    /** Short subtitle shown under each role in the picker. */
+    sub: RoleMap;
+  };
+
+  onboarding: {
+    title: string;
+    sub: string;
+    /** Continue / save button label, used after a role is selected. */
+    cta: string;
+    /** Skip the question for now. */
+    skip: string;
+  };
+
+  /** Personalized alert shown on Today + Settings, keyed by role. */
+  personalizedAlert: {
+    /** Section eyebrow / banner label. */
+    eyebrow: string;
+    /** Headline shown above the role-specific guidance. */
+    headline: string;
+    body: RoleMap;
+  };
+
+  /** Recommended action cards shown beneath high-risk predictions. */
+  recommendedActions: {
+    title: string;
+    sub: string;
+    items: {
+      drip: string;
+      delayWatering: string;
+      checkLeaks: string;
+      reduceOutdoor: string;
+    };
   };
 
   /** Stage names — short, used as labels and in headlines. */
@@ -113,15 +153,20 @@ export type Strings = {
     reservoirFishing: StageMap;
   };
 
-  about: {
+  settings: {
     title: string;
     sub: string;
-    method: string;
+    /** Section eyebrows. */
+    languageSection: string;
+    profileSection: string;
+    profileHint: string;
+    methodSection: string;
+    sourceSection: string;
+    thresholdsSection: string;
+    /** Body copy shared with the methodology section. */
     methodBody: string;
-    modelFit: string;
     /** Builds e.g. "+3 mo". */
     horizonLabel: (months: number) => string;
-    source: string;
     dataset: string;
     datasetValue: string;
     endpoint: string;
@@ -131,7 +176,6 @@ export type Strings = {
     recordsValue: (n: number) => string;
     region: string;
     regionValue: string;
-    stageThresholds: string;
     thresholdRange: StageMap;
     disclaimer: string;
   };

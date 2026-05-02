@@ -16,7 +16,54 @@ const tl: Strings = {
     today: "Ngayon",
     sim: "Simulator",
     impact: "Epekto",
-    about: "Tungkol",
+    settings: "Mga Setting",
+  },
+
+  roles: {
+    label: {
+      farmer: "Magsasaka",
+      resident: "Residente",
+      school: "Paaralan",
+      business: "Negosyo",
+      planner: "Tagaplano ng Lungsod",
+    },
+    sub: {
+      farmer: "Patubig at pagpaplano ng pananim",
+      resident: "Paggamit ng tubig sa bahay",
+      school: "Operasyon ng paaralan",
+      business: "Komersyal na paggamit ng tubig",
+      planner: "Pampublikong imprastraktura",
+    },
+  },
+
+  onboarding: {
+    title: "Alin ang pinakaangkop sa iyo?",
+    sub: "Ipapasadya namin ang mga alerto at rekomendasyon ayon sa iyong sitwasyon.",
+    cta: "Magpatuloy",
+    skip: "Laktawan muna",
+  },
+
+  personalizedAlert: {
+    eyebrow: "PARA SA IYO",
+    headline: "Inirerekomenda ngayong linggo",
+    body: {
+      farmer: "Bawasan ang patubig ng 15% ngayong linggo.",
+      resident: "Iwasang diligan ang damuhan.",
+      school: "I-pause ang hindi mahahalagang pagdidilig sa labas.",
+      business: "Suriin ang mga kagamitang gumagamit ng tubig para sa tagas.",
+      planner: "Inirerekomenda ang konserbasyon ng reserba.",
+    },
+  },
+
+  recommendedActions: {
+    title: "Mga Inirerekomendang Aksyon",
+    sub: "Mga hakbang na may pinakamalaking epekto sa panahon ng panganib.",
+    items: {
+      drip: "Lumipat sa drip irrigation",
+      delayWatering: "Ipagpaliban ang hindi mahalagang pagdidilig",
+      checkLeaks: "Suriin kung may tagas",
+      reduceOutdoor: "Bawasan ang paggamit sa labas",
+    },
   },
 
   stages: {
@@ -143,15 +190,18 @@ const tl: Strings = {
     },
   },
 
-  about: {
-    title: "Tungkol",
-    sub: "Pamamaraan at pinagmulan",
-    method: "PAMAMARAAN",
+  settings: {
+    title: "Mga Setting",
+    sub: "I-personalize ang DroughtCast",
+    languageSection: "WIKA",
+    profileSection: "AKO AY ISANG…",
+    profileHint: "Ginagabayan nito ang mga alerto at rekomendasyon na nakikita mo.",
+    methodSection: "PAMAMARAAN",
+    sourceSection: "PINAGMULAN",
+    thresholdsSection: "MGA HANGGANAN NG YUGTO",
     methodBody:
-      "Apat na multivariate linear regression na sinanay sa mismong device, isa sa bawat saklaw ng pagtataya (1, 3, 6, 12 buwan). Mga features: kasalukuyang niyebe at ulan (% ng normal), niyebe at ulan na may 3 buwang lag, at sin/cos seasonality ng buwan. Ang 12-buwang kurba ay nag-i-interpolate sa pagitan ng apat na anchor.",
-    modelFit: "MODEL FIT (R² IN-SAMPLE)",
+      "Apat na multivariate linear regression na sinanay sa mismong device, isa sa bawat saklaw ng pagtataya (1, 3, 6, 12 buwan). Mga features: kasalukuyang niyebe at ulan (% ng normal), niyebe at ulan na may 3 buwang lag, at sin/cos seasonality ng buwan.",
     horizonLabel: (m) => `+${m} buwan`,
-    source: "PINAGMULAN",
     dataset: "Dataset",
     datasetValue: "H2O Hackathon Challenge",
     endpoint: "Endpoint",
@@ -160,7 +210,6 @@ const tl: Strings = {
     recordsValue: (n) => `${n} buwan`,
     region: "Rehiyon",
     regionValue: "San Joaquin County, CA",
-    stageThresholds: "MGA HANGGANAN NG YUGTO",
     thresholdRange: {
       Normal: "> 85% ng reserba",
       Watch: "75 – 85%",

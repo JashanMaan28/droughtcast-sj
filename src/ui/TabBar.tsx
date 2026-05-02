@@ -1,15 +1,9 @@
 import { BlurView } from "expo-blur";
 import { Platform, Pressable, Text, View } from "react-native";
 import Svg, { Circle, Path, Rect } from "react-native-svg";
+import { useApp } from "../context/AppContext";
 
-export type TabId = "today" | "sim" | "impact" | "about";
-
-const TABS: { id: TabId; label: string }[] = [
-  { id: "today", label: "Today" },
-  { id: "sim", label: "Simulator" },
-  { id: "impact", label: "Impact" },
-  { id: "about", label: "About" },
-];
+export type TabId = "today" | "sim" | "impact" | "settings";
 
 export function TabBar({
   active,
@@ -18,6 +12,13 @@ export function TabBar({
   active: TabId;
   onChange: (id: TabId) => void;
 }) {
+  const { t } = useApp();
+  const tabs: { id: TabId; label: string }[] = [
+    { id: "today", label: t.tabs.today },
+    { id: "sim", label: t.tabs.sim },
+    { id: "impact", label: t.tabs.impact },
+    { id: "settings", label: t.tabs.settings },
+  ];
   const Container = Platform.OS === "ios" ? BlurView : View;
   const containerProps =
     Platform.OS === "ios" ? { intensity: 60, tint: "dark" as const } : {};
@@ -41,7 +42,7 @@ export function TabBar({
             paddingVertical: 8,
           }}
         >
-          {TABS.map((t) => {
+          {tabs.map((t) => {
             const a = active === t.id;
             return (
               <Pressable
@@ -162,19 +163,20 @@ function TabIcon({ id, active }: { id: TabId; active: boolean }) {
       </Svg>
     );
   }
+  // settings (gear)
   return (
     <Svg width={22} height={22} viewBox="0 0 24 24">
       <Circle
         cx={12}
         cy={12}
-        r={9}
+        r={3}
         stroke="#fff"
         strokeWidth={sw}
-        fill="transparent"
+        fill={active ? "#fff" : "transparent"}
         opacity={s}
       />
       <Path
-        d="M12 8v0M12 11v5"
+        d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"
         stroke="#fff"
         strokeWidth={sw}
         strokeLinecap="round"

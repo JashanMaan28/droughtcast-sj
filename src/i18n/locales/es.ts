@@ -16,7 +16,54 @@ const es: Strings = {
     today: "Hoy",
     sim: "Simulador",
     impact: "Impacto",
-    about: "Acerca",
+    settings: "Ajustes",
+  },
+
+  roles: {
+    label: {
+      farmer: "Agricultor",
+      resident: "Residente",
+      school: "Escuela",
+      business: "Negocio",
+      planner: "Planificador urbano",
+    },
+    sub: {
+      farmer: "Riego y planificación de cultivos",
+      resident: "Uso doméstico del agua",
+      school: "Operaciones del campus",
+      business: "Uso comercial del agua",
+      planner: "Infraestructura pública",
+    },
+  },
+
+  onboarding: {
+    title: "¿Qué te describe mejor?",
+    sub: "Personalizaremos las alertas y recomendaciones para tu situación.",
+    cta: "Continuar",
+    skip: "Saltar por ahora",
+  },
+
+  personalizedAlert: {
+    eyebrow: "PARA TI",
+    headline: "Recomendado esta semana",
+    body: {
+      farmer: "Reduce el riego un 15% esta semana.",
+      resident: "Evita regar el césped.",
+      school: "Pausa el riego exterior no esencial.",
+      business: "Revisa equipos que usen agua por fugas.",
+      planner: "Se recomienda conservar el embalse.",
+    },
+  },
+
+  recommendedActions: {
+    title: "Acciones recomendadas",
+    sub: "Pasos con mayor impacto ante un riesgo elevado.",
+    items: {
+      drip: "Cambia a riego por goteo",
+      delayWatering: "Posterga el riego no esencial",
+      checkLeaks: "Revisa si hay fugas",
+      reduceOutdoor: "Reduce el uso exterior",
+    },
   },
 
   stages: {
@@ -142,15 +189,18 @@ const es: Strings = {
     },
   },
 
-  about: {
-    title: "Acerca",
-    sub: "Metodología y fuentes",
-    method: "MÉTODO",
+  settings: {
+    title: "Ajustes",
+    sub: "Personaliza DroughtCast",
+    languageSection: "IDIOMA",
+    profileSection: "SOY UN(A)…",
+    profileHint: "Ajusta las alertas y recomendaciones que ves.",
+    methodSection: "MÉTODO",
+    sourceSection: "FUENTE",
+    thresholdsSection: "UMBRALES DE ETAPA",
     methodBody:
-      "Cuatro regresiones lineales multivariadas entrenadas en el dispositivo, una por horizonte de pronóstico (1, 3, 6 y 12 meses). Variables: manto de nieve y precipitación actuales (% de lo normal), manto y precipitación con desfase de 3 meses, y estacionalidad sin/cos del mes del año. La curva de 12 meses interpola entre esos cuatro anclajes.",
-    modelFit: "AJUSTE DEL MODELO (R² EN MUESTRA)",
+      "Cuatro regresiones lineales multivariadas entrenadas en el dispositivo, una por horizonte de pronóstico (1, 3, 6 y 12 meses). Variables: manto de nieve y precipitación actuales (% de lo normal), manto y precipitación con desfase de 3 meses, y estacionalidad sin/cos del mes del año.",
     horizonLabel: (m) => `+${m} mes`,
-    source: "FUENTE",
     dataset: "Conjunto de datos",
     datasetValue: "H2O Hackathon Challenge",
     endpoint: "Endpoint",
@@ -159,7 +209,6 @@ const es: Strings = {
     recordsValue: (n) => `${n} meses`,
     region: "Región",
     regionValue: "Condado de San Joaquín, CA",
-    stageThresholds: "UMBRALES DE ETAPA",
     thresholdRange: {
       Normal: "> 85% del embalse",
       Watch: "75 – 85%",
