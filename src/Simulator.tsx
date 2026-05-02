@@ -1,6 +1,7 @@
 import Slider from "@react-native-community/slider";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Text, View } from "react-native";
+import { ForecastChart } from "./ForecastChart";
 import { HORIZONS, predictHorizon, type ModelBundle } from "./model";
 import { classify, STAGE_BG, STAGE_COLOR } from "./stage";
 import type { Horizon, Row } from "./types";
@@ -105,6 +106,14 @@ export function Simulator({
           })}
         </View>
       </View>
+
+      <ForecastChart
+        rows={rows}
+        models={models}
+        snowpack={debounced.snowpack}
+        precip={debounced.precip}
+        month={debounced.month}
+      />
 
       <SliderRow
         label="Snowpack"
