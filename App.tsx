@@ -1,6 +1,6 @@
 import "./global.css";
 import { StatusBar } from "expo-status-bar";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ActivityIndicator,
   SafeAreaView,
@@ -9,6 +9,7 @@ import {
   View,
 } from "react-native";
 import { fetchRows } from "./src/api";
+import { HORIZONS, trainModels, type ModelBundle } from "./src/model";
 import { classify, STAGE_BG } from "./src/stage";
 import type { Row } from "./src/types";
 
@@ -22,6 +23,11 @@ export default function App() {
       .catch((e) => setError(String(e)));
   }, []);
 
+  const models: ModelBundle | null = useMemo(
+    () => (rows ? trainModels(rows) : null),
+    [rows],
+  );
+
   if (error) {
     return (
       <SafeAreaView className="flex-1 bg-stone-50">
@@ -32,12 +38,14 @@ export default function App() {
     );
   }
 
-  if (!rows) {
+  if (!rows || !models) {
     return (
       <SafeAreaView className="flex-1 bg-stone-50">
         <View className="flex-1 items-center justify-center">
           <ActivityIndicator size="large" color="#0c4a6e" />
-          <Text className="mt-3 text-stone-600">Loading drought data…</Text>
+          <Text className="mt-3 text-stone-600">
+            Training drought model…
+          </Text>
         </View>
       </SafeAreaView>
     );
@@ -76,9 +84,24 @@ export default function App() {
           </View>
         </View>
 
-        <Text className="mt-6 text-xs text-stone-400">
-          Loaded {rows.length} monthly observations.
-        </Text>
+        <View className="mt-4 rounded-2xl bg-white p-5 shadow">
+          <Text className="text-stone-500">Model Stats</Text>
+          <Text className="mt-1 text-xs text-stone-400">
+            Multivariate linear regression · trained on {rows.length} months
+          </Text>
+          <View className="mt-3 flex-row justify-between">
+            {HORIZONS.map((h) => (
+              <View key={h} className="items-center">
+                <Text className="text-xs uppercase text-stone-500">
+                  {h}mo
+                </Text>
+                <Text className="text-lg font-bold text-sky-900">
+                  R² {models[h].r2.toFixed(2)}
+                </Text>
+              </View>
+            ))}
+          </View>
+        </View>
       </ScrollView>
       <StatusBar style="auto" />
     </SafeAreaView>
