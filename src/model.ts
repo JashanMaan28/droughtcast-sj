@@ -72,8 +72,36 @@ export function trainModels(rows: Row[]): ModelBundle {
   return bundle as ModelBundle;
 }
 
+// Mean snowpack/precip across all history rows whose month matches `month` (1-12).
+// Falls back to the overall mean if no row matches.
+function meanForMonth(
+  rows: Row[],
+  month: number,
+): { snowpack: number; precip: number } {
+  let s = 0;
+  let p = 0;
+  let n = 0;
+  for (const r of rows) {
+    if (r.month === month) {
+      s += r.snowpack;
+      p += r.precip;
+      n++;
+    }
+  }
+  if (n === 0) {
+    for (const r of rows) {
+      s += r.snowpack;
+      p += r.precip;
+    }
+    n = rows.length || 1;
+  }
+  return { snowpack: s / n, precip: p / n };
+}
+
 // Predict reservoir level n months out, given current conditions.
-// `rows` provides the lag values from real history.
+// Lag features use the historical month-of-year mean for `startMonth - LAG`,
+// so they stay seasonally aligned with the scenario regardless of where the
+// most recent real row falls in the calendar.
 export function predictHorizon(
   models: ModelBundle,
   rows: Row[],
@@ -82,13 +110,13 @@ export function predictHorizon(
   startMonth: number, // 1-12
   horizon: Horizon,
 ): number {
-  // Use the latest 3-month-ago real row as lag baseline.
-  const lagRow = rows[rows.length - 1 - LAG] ?? rows[0];
+  const lagMonth = ((startMonth - 1 - LAG + 12) % 12) + 1;
+  const lag = meanForMonth(rows, lagMonth);
   const x = buildFeatures(
     snowpack,
     precip,
-    lagRow.snowpack,
-    lagRow.precip,
+    lag.snowpack,
+    lag.precip,
     startMonth,
   );
   return models[horizon].predict(x);
