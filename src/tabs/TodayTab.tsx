@@ -114,7 +114,7 @@ export function TodayTab({
       <TopBar title="San Joaquin" sub={headerSub} />
 
       {/* HERO AQUAALERT */}
-      <View style={{ paddingHorizontal: 14, paddingBottom: 14 }}>
+      <View style={{ paddingHorizontal: 14, paddingBottom: 12 }}>
         <Animated.View
           style={{
             borderRadius: 24,
@@ -269,6 +269,7 @@ export function TodayTab({
       <View
         style={{
           marginHorizontal: 14,
+          marginBottom: 12,
           flexDirection: "row",
           gap: 8,
         }}

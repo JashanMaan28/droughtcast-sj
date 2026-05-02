@@ -28,23 +28,12 @@ export function SettingsTab({ rows }: { rows: Row[] }) {
           <SectionEyebrow label={t.settings.languageSection} />
           <View
             style={{
-              marginTop: 12,
+              marginTop: 14,
               flexDirection: "row",
               alignItems: "center",
-              justifyContent: "space-between",
-              gap: 12,
+              justifyContent: "flex-end",
             }}
           >
-            <Text
-              style={{
-                flex: 1,
-                fontSize: 13,
-                color: TOKENS.textMid,
-                lineHeight: 18,
-              }}
-            >
-              {t.onboarding.sub}
-            </Text>
             <LanguageMenu value={locale} onChange={setLocale} align="right" />
           </View>
         </View>

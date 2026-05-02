@@ -1,10 +1,8 @@
-import { BlurView } from "expo-blur";
 import { useEffect, useRef, useState } from "react";
 import {
   Animated,
   Easing,
   Modal,
-  Platform,
   Pressable,
   Text,
   View,
@@ -12,12 +10,14 @@ import {
 import Svg, { Path } from "react-native-svg";
 import { useApp } from "../context/AppContext";
 import type { Role } from "../i18n/types";
+import { LanguageMenu } from "./LanguageMenu";
 import { TOKENS } from "./tokens";
 
 const ROLES: Role[] = ["farmer", "resident", "school", "business", "planner"];
 
 export function OnboardingModal() {
-  const { showOnboarding, setRole, skipOnboarding, t } = useApp();
+  const { showOnboarding, setRole, skipOnboarding, t, locale, setLocale } =
+    useApp();
   const [picked, setPicked] = useState<Role | null>(null);
   const reveal = useRef(new Animated.Value(0)).current;
 
@@ -37,12 +37,6 @@ export function OnboardingModal() {
 
   const ty = reveal.interpolate({ inputRange: [0, 1], outputRange: [16, 0] });
 
-  const PanelInner = Platform.OS === "ios" ? BlurView : View;
-  const innerProps =
-    Platform.OS === "ios"
-      ? { intensity: 60, tint: "dark" as const }
-      : ({} as object);
-
   return (
     <Modal
       visible={showOnboarding}
@@ -54,10 +48,15 @@ export function OnboardingModal() {
       <View
         style={{
           flex: 1,
-          backgroundColor: "rgba(4,10,20,0.55)",
+          backgroundColor: "rgba(4,10,20,0.62)",
           justifyContent: "flex-end",
         }}
       >
+        <Pressable
+          accessibilityLabel={t.onboarding.skip}
+          onPress={skipOnboarding}
+          style={{ flex: 1 }}
+        />
         <Animated.View
           style={{
             opacity: reveal,
@@ -72,145 +71,154 @@ export function OnboardingModal() {
               overflow: "hidden",
               borderWidth: 0.5,
               borderColor: TOKENS.glassEdge,
-              backgroundColor:
-                Platform.OS === "ios"
-                  ? "rgba(20,28,42,0.62)"
-                  : "rgba(11,16,28,0.97)",
+              backgroundColor: "#0F1A2E",
               shadowColor: "#000",
-              shadowOpacity: 0.45,
-              shadowRadius: 24,
+              shadowOpacity: 0.5,
+              shadowRadius: 28,
               shadowOffset: { width: 0, height: 14 },
               elevation: 18,
             }}
           >
-            <PanelInner {...innerProps}>
-              <View style={{ paddingHorizontal: 22, paddingTop: 22, paddingBottom: 18 }}>
-                <View
-                  style={{
-                    width: 36,
-                    height: 4,
-                    borderRadius: 2,
-                    backgroundColor: "rgba(255,255,255,0.22)",
-                    alignSelf: "center",
-                    marginBottom: 18,
-                  }}
-                />
+            <View style={{ paddingHorizontal: 22, paddingTop: 18, paddingBottom: 22 }}>
+              <View
+                style={{
+                  width: 40,
+                  height: 4,
+                  borderRadius: 2,
+                  backgroundColor: "rgba(255,255,255,0.22)",
+                  alignSelf: "center",
+                  marginBottom: 20,
+                }}
+              />
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: 12,
+                }}
+              >
                 <Text
                   style={{
                     fontSize: 11,
                     color: TOKENS.textMid,
-                    letterSpacing: 0.6,
-                    fontWeight: "600",
+                    letterSpacing: 1.2,
+                    fontWeight: "700",
                   }}
                 >
                   DROUGHTCAST
                 </Text>
-                <Text
-                  style={{
-                    fontSize: 26,
-                    color: TOKENS.textHi,
-                    fontWeight: "500",
-                    letterSpacing: -0.6,
-                    marginTop: 6,
-                    lineHeight: 30,
-                  }}
-                  accessibilityRole="header"
-                >
-                  {t.onboarding.title}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 13,
-                    color: TOKENS.textMid,
-                    marginTop: 6,
-                    lineHeight: 19,
-                  }}
-                >
-                  {t.onboarding.sub}
-                </Text>
-
-                <View style={{ marginTop: 16, gap: 8 }}>
-                  {ROLES.map((r) => (
-                    <RoleRow
-                      key={r}
-                      role={r}
-                      label={t.roles.label[r]}
-                      sub={t.roles.sub[r]}
-                      selected={picked === r}
-                      onPick={setPicked}
-                    />
-                  ))}
-                </View>
-
-                <View
-                  style={{
-                    flexDirection: "row",
-                    gap: 10,
-                    marginTop: 20,
-                  }}
-                >
-                  <Pressable
-                    onPress={skipOnboarding}
-                    accessibilityRole="button"
-                    accessibilityLabel={t.onboarding.skip}
-                    style={({ pressed }) => ({
-                      flex: 1,
-                      paddingVertical: 14,
-                      borderRadius: 14,
-                      borderWidth: 0.5,
-                      borderColor: TOKENS.glassEdge,
-                      alignItems: "center",
-                      backgroundColor: pressed
-                        ? "rgba(255,255,255,0.10)"
-                        : "transparent",
-                      minHeight: 44,
-                      justifyContent: "center",
-                    })}
-                  >
-                    <Text
-                      style={{
-                        fontSize: 14,
-                        color: TOKENS.textMid,
-                        fontWeight: "500",
-                      }}
-                    >
-                      {t.onboarding.skip}
-                    </Text>
-                  </Pressable>
-                  <Pressable
-                    onPress={() => picked && setRole(picked)}
-                    disabled={!picked}
-                    accessibilityRole="button"
-                    accessibilityState={{ disabled: !picked }}
-                    accessibilityLabel={t.onboarding.cta}
-                    style={({ pressed }) => ({
-                      flex: 1.4,
-                      paddingVertical: 14,
-                      borderRadius: 14,
-                      alignItems: "center",
-                      backgroundColor: picked
-                        ? pressed
-                          ? "#9DD8F0"
-                          : "#A8E6FF"
-                        : "rgba(255,255,255,0.18)",
-                      minHeight: 44,
-                      justifyContent: "center",
-                    })}
-                  >
-                    <Text
-                      style={{
-                        fontSize: 14,
-                        color: picked ? "#0c4a6e" : TOKENS.textLo,
-                        fontWeight: "700",
-                        letterSpacing: -0.1,
-                      }}
-                    >
-                      {t.onboarding.cta}
-                    </Text>
-                  </Pressable>
-                </View>
+                <LanguageMenu
+                  value={locale}
+                  onChange={setLocale}
+                  align="right"
+                />
               </View>
-            </PanelInner>
+              <Text
+                style={{
+                  fontSize: 26,
+                  color: TOKENS.textHi,
+                  fontWeight: "600",
+                  letterSpacing: -0.6,
+                  marginTop: 12,
+                  lineHeight: 32,
+                }}
+                accessibilityRole="header"
+              >
+                {t.onboarding.title}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 14,
+                  color: TOKENS.textMid,
+                  marginTop: 6,
+                  lineHeight: 20,
+                }}
+              >
+                {t.onboarding.sub}
+              </Text>
+
+              <View style={{ marginTop: 20, gap: 10 }}>
+                {ROLES.map((r) => (
+                  <RoleRow
+                    key={r}
+                    role={r}
+                    label={t.roles.label[r]}
+                    sub={t.roles.sub[r]}
+                    selected={picked === r}
+                    onPick={setPicked}
+                  />
+                ))}
+              </View>
+
+              <View
+                style={{
+                  flexDirection: "row",
+                  gap: 10,
+                  marginTop: 22,
+                }}
+              >
+                <Pressable
+                  onPress={skipOnboarding}
+                  accessibilityRole="button"
+                  accessibilityLabel={t.onboarding.skip}
+                  style={({ pressed }) => ({
+                    flex: 1,
+                    paddingVertical: 14,
+                    borderRadius: 14,
+                    borderWidth: 0.5,
+                    borderColor: TOKENS.glassEdge,
+                    alignItems: "center",
+                    backgroundColor: pressed
+                      ? "rgba(255,255,255,0.10)"
+                      : "transparent",
+                    minHeight: 48,
+                    justifyContent: "center",
+                  })}
+                >
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      color: TOKENS.textMid,
+                      fontWeight: "500",
+                    }}
+                  >
+                    {t.onboarding.skip}
+                  </Text>
+                </Pressable>
+                <Pressable
+                  onPress={() => picked && setRole(picked)}
+                  disabled={!picked}
+                  accessibilityRole="button"
+                  accessibilityState={{ disabled: !picked }}
+                  accessibilityLabel={t.onboarding.cta}
+                  style={({ pressed }) => ({
+                    flex: 1.4,
+                    paddingVertical: 14,
+                    borderRadius: 14,
+                    alignItems: "center",
+                    backgroundColor: picked
+                      ? pressed
+                        ? "#9DD8F0"
+                        : "#A8E6FF"
+                      : "rgba(255,255,255,0.16)",
+                    minHeight: 48,
+                    justifyContent: "center",
+                  })}
+                >
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      color: picked ? "#0c4a6e" : TOKENS.textLo,
+                      fontWeight: "700",
+                      letterSpacing: -0.1,
+                    }}
+                  >
+                    {t.onboarding.cta}
+                  </Text>
+                </Pressable>
+              </View>
+            </View>
           </View>
         </Animated.View>
       </View>
@@ -241,48 +249,50 @@ function RoleRow({
         flexDirection: "row",
         alignItems: "center",
         gap: 12,
-        paddingHorizontal: 14,
-        paddingVertical: 12,
-        borderRadius: 14,
+        paddingHorizontal: 18,
+        paddingVertical: 14,
+        borderRadius: 16,
         borderWidth: 1,
-        borderColor: selected ? "#A8E6FF" : "rgba(255,255,255,0.14)",
+        borderColor: selected ? "#A8E6FF" : "rgba(255,255,255,0.16)",
         backgroundColor: selected
-          ? "rgba(168,230,255,0.10)"
+          ? "rgba(168,230,255,0.12)"
           : pressed
-            ? "rgba(255,255,255,0.06)"
-            : "rgba(255,255,255,0.03)",
-        minHeight: 56,
+            ? "rgba(255,255,255,0.08)"
+            : "rgba(255,255,255,0.04)",
+        minHeight: 64,
       })}
     >
-      <RoleGlyph role={role} active={selected} />
       <View style={{ flex: 1 }}>
         <Text
           style={{
-            fontSize: 15,
-            color: TOKENS.textHi,
+            fontSize: 17,
+            color: "#FFFFFF",
             fontWeight: selected ? "600" : "500",
-            letterSpacing: -0.1,
+            letterSpacing: -0.2,
           }}
+          numberOfLines={1}
         >
           {label}
         </Text>
         <Text
           style={{
-            fontSize: 12,
-            color: TOKENS.textLo,
+            fontSize: 13,
+            color: "rgba(255,255,255,0.62)",
             marginTop: 2,
+            lineHeight: 17,
           }}
+          numberOfLines={1}
         >
           {sub}
         </Text>
       </View>
       <View
         style={{
-          width: 20,
-          height: 20,
-          borderRadius: 10,
-          borderWidth: 1.4,
-          borderColor: selected ? "#A8E6FF" : "rgba(255,255,255,0.35)",
+          width: 22,
+          height: 22,
+          borderRadius: 11,
+          borderWidth: 1.5,
+          borderColor: selected ? "#A8E6FF" : "rgba(255,255,255,0.4)",
           alignItems: "center",
           justifyContent: "center",
         }}
@@ -290,9 +300,9 @@ function RoleRow({
         {selected ? (
           <View
             style={{
-              width: 10,
-              height: 10,
-              borderRadius: 5,
+              width: 11,
+              height: 11,
+              borderRadius: 5.5,
               backgroundColor: "#A8E6FF",
             }}
           />

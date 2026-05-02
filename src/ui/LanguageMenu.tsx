@@ -74,10 +74,11 @@ export function LanguageMenu({
           style={({ pressed }) => ({
             flexDirection: "row",
             alignItems: "center",
-            gap: 8,
-            paddingHorizontal: 12,
-            paddingVertical: 8,
-            minHeight: 36,
+            gap: 10,
+            paddingLeft: 14,
+            paddingRight: 12,
+            paddingVertical: 9,
+            minHeight: 40,
             borderRadius: 999,
             borderWidth: 0.5,
             borderColor: TOKENS.glassEdge,
@@ -90,7 +91,7 @@ export function LanguageMenu({
             style={{
               fontSize: 11,
               color: TOKENS.textHi,
-              fontWeight: "600",
+              fontWeight: "700",
               letterSpacing: 1.2,
             }}
           >
@@ -98,9 +99,10 @@ export function LanguageMenu({
           </Text>
           <Text
             style={{
-              fontSize: 13,
-              color: TOKENS.textMid,
+              fontSize: 14,
+              color: TOKENS.textHi,
               letterSpacing: -0.1,
+              fontWeight: "500",
             }}
             numberOfLines={1}
           >
@@ -186,7 +188,7 @@ function DropdownPanel({
 
   if (!anchor) return null;
 
-  const PANEL_W = 224;
+  const PANEL_W = 240;
   const GAP = 8;
 
   // Snap the panel to the trigger's edge based on `align`.
@@ -249,13 +251,12 @@ function DropdownPanel({
                   : "rgba(11,16,28,0.96)",
             }}
           >
-            <PanelInner {...innerProps} style={{ paddingVertical: 6 }}>
-              {languages.map((l, i) => (
+            <PanelInner {...innerProps} style={{ paddingVertical: 10 }}>
+              {languages.map((l) => (
                 <LanguageItem
                   key={l.code}
                   lang={l}
                   selected={l.code === value}
-                  divider={i < languages.length - 1}
                   onPick={onPick}
                 />
               ))}
@@ -270,12 +271,10 @@ function DropdownPanel({
 function LanguageItem({
   lang,
   selected,
-  divider,
   onPick,
 }: {
   lang: LanguageInfo;
   selected: boolean;
-  divider: boolean;
   onPick: (l: Locale) => void;
 }) {
   return (
@@ -285,15 +284,15 @@ function LanguageItem({
       accessibilityState={{ selected }}
       accessibilityLabel={`${lang.englishName} — ${lang.nativeName}`}
       style={({ pressed }) => ({
-        paddingHorizontal: 14,
+        marginHorizontal: 6,
+        paddingHorizontal: 12,
         paddingVertical: 12,
+        borderRadius: 10,
         flexDirection: "row",
         alignItems: "center",
-        gap: 10,
-        minHeight: 44,
+        gap: 12,
+        minHeight: 48,
         backgroundColor: pressed ? "rgba(255,255,255,0.10)" : "transparent",
-        borderBottomWidth: divider ? 0.5 : 0,
-        borderColor: TOKENS.divider,
       })}
     >
       <Text
