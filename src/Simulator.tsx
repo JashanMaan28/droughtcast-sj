@@ -16,9 +16,11 @@ type Inputs = { snowpack: number; precip: number; month: number };
 export function Simulator({
   rows,
   models,
+  onSixMonthChange,
 }: {
   rows: Row[];
   models: ModelBundle;
+  onSixMonthChange?: (pct: number) => void;
 }) {
   const latest = rows[rows.length - 1];
 
@@ -59,6 +61,10 @@ export function Simulator({
 
   const heroPct = predictions[6];
   const heroStage = classify(heroPct);
+
+  useEffect(() => {
+    onSixMonthChange?.(heroPct);
+  }, [heroPct, onSixMonthChange]);
 
   return (
     <View className="mt-4 rounded-2xl bg-white p-5 shadow">
