@@ -20,7 +20,6 @@ import { AboutTab } from "./src/tabs/AboutTab";
 import { ImpactTab } from "./src/tabs/ImpactTab";
 import { SimulatorTab } from "./src/tabs/SimulatorTab";
 import { TodayTab } from "./src/tabs/TodayTab";
-import { PushToast } from "./src/ui/PushToast";
 import { TabBar, type TabId } from "./src/ui/TabBar";
 import { TOKENS } from "./src/ui/tokens";
 import type { Row } from "./src/types";
@@ -46,7 +45,6 @@ export default function App() {
   const [pr, setPr] = useState<number | null>(null);
   const [month, setMonth] = useState<number | null>(null);
 
-  const [toastOpen, setToastOpen] = useState(false);
   const [demoFired, setDemoFired] = useState(false);
 
   useEffect(() => {
@@ -98,8 +96,6 @@ export default function App() {
 
   const onDemo = useCallback(async () => {
     setDemoFired(true);
-    setToastOpen(true);
-    setTimeout(() => setToastOpen(false), 3500);
 
     if (!Device.isDevice) return;
     try {
@@ -122,13 +118,13 @@ export default function App() {
       const stage = classify(curve[5]);
       await Notifications.scheduleNotificationAsync({
         content: {
-          title: "DroughtCast · AquaAlert",
+          title: "DroughtCast",
           body: `${stage} forecast — reservoir at ${Math.round(curve[5])}% by month +6.`,
         },
         trigger: null,
       });
     } catch {
-      // Notifications are a nice-to-have; UI toast already fired.
+      // Notifications are a nice-to-have.
     }
   }, [rows, models]);
 
@@ -198,25 +194,8 @@ export default function App() {
         </SafeAreaView>
       </Atmosphere>
 
-      <PushToast
-        visible={toastOpen}
-        onClose={() => setToastOpen(false)}
-        stage={atmosphereStage}
-        pct={impactInfo?.pct ?? last.reservoir}
-        monthLabel={monthLabel(useMo, 6)}
-      />
-
       <TabBar active={tab} onChange={setTab} />
       <StatusBar style="light" />
     </View>
   );
-}
-
-function monthLabel(startMonth: number, k: number) {
-  const names = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-  ];
-  const m = ((startMonth - 1 + k) % 12) + 1;
-  return names[m - 1];
 }

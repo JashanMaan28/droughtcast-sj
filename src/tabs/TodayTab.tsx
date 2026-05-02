@@ -113,7 +113,7 @@ export function TodayTab({
     <View>
       <TopBar title="San Joaquin" sub={headerSub} />
 
-      {/* HERO AQUAALERT */}
+      {/* HERO ALERT */}
       <View style={{ paddingHorizontal: 14, paddingBottom: 14 }}>
         <Animated.View
           style={{
@@ -334,7 +334,7 @@ function AlertContent({
             letterSpacing: 1.2,
           }}
         >
-          AQUAALERT · ACTIVE
+          ALERT · ACTIVE
         </Text>
       </View>
       <Text
@@ -361,7 +361,7 @@ function AlertContent({
       <Pressable
         onPress={onDemo}
         accessibilityRole="button"
-        accessibilityLabel="Send a demo AquaAlert push notification"
+        accessibilityLabel="Send a demo drought push notification"
         style={{
           marginTop: 16,
           backgroundColor: "#fff",
